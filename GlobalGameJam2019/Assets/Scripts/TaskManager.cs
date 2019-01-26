@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class TaskManager : MonoBehaviour {
     
-    private float timeBetweenTasks;
+    private float delayBetweenTasks;
     private float currentTime;
     private int numTasks;
     private int maxActiveTasks;
-    private Random random;
 
     // Asignar externamente
     public List<Task> tasks;
@@ -20,13 +19,17 @@ public class TaskManager : MonoBehaviour {
             t.Create( player1, player2, this );
         }
 
-        random = new Random();
-
-        timeBetweenTasks = 5;
+        delayBetweenTasks = 2;
         currentTime = 1;
 
         maxActiveTasks = 6;
         numTasks = 0;
+
+        Invoke("TaskCompleted", 2);
+    }
+
+    private void ResetTimer() {
+        currentTime = delayBetweenTasks * (maxActiveTasks - numTasks);
     }
 
     // Update is called once per frame
@@ -35,19 +38,20 @@ public class TaskManager : MonoBehaviour {
         currentTime -= Time.deltaTime;
 
         if (numTasks >= maxActiveTasks) {
-            currentTime = timeBetweenTasks;
+            ResetTimer();
         }
 
         if (currentTime <= 0) {
             ActivateTask();
-            currentTime = timeBetweenTasks;
+            ResetTimer();
         }
     }
 
     void ActivateTask() {
         bool activated = false;
+        int randomNumber;
         while (!activated) {
-            int randomNumber = random.Next(0, tasks.Count() );
+            randomNumber = Random.Range(0, tasks.Count );
             activated = tasks[randomNumber].Initialize();
         }
         numTasks++;
@@ -55,5 +59,6 @@ public class TaskManager : MonoBehaviour {
 
     public void TaskCompleted() {
         numTasks--;
+        currentTime -= delayBetweenTasks/2;
     }
 }
