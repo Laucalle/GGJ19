@@ -16,7 +16,6 @@ public class Player : MonoBehaviour {
     void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
-        inverseMoveTime = 1.0f / moveTime;
         animator = GetComponent<Animator>();
         activated = true;
         death = false;
