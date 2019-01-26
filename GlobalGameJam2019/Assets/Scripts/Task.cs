@@ -17,10 +17,12 @@ public class Task : MonoBehaviour {
     public float timeOutStress;
     public int maxPoints;
     public float timeToCompletion;
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
         points = 0;
     }
 
@@ -38,6 +40,7 @@ public class Task : MonoBehaviour {
         player1.IncreaseStress(timeOutStress);
         player2.IncreaseStress(timeOutStress);
         Deactivate();
+        animator.SetTrigger("TimeOut");
     }
 
     private void Deactivate() {
@@ -49,8 +52,8 @@ public class Task : MonoBehaviour {
         player1 = p1;
         player2 = p2;
         taskManager = tm;
+        animator.SetTrigger("Active");
     }
-
 
     // Devuelve true si la tarea se inicializa
     public bool Initialize() {
@@ -69,6 +72,7 @@ public class Task : MonoBehaviour {
             if (points >= maxPoints) {
                 p.IncreaseStress(completationStress);
                 Deactivate();
+                animator.SetTrigger("Done");
             }
         }
     }
