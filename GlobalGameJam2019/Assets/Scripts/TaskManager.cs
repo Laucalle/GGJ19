@@ -6,7 +6,7 @@ public class TaskManager : MonoBehaviour {
     
     private float delayBetweenTasks;
     private float currentTime;
-    private int numTasks;
+    public int numTasks;
     private int maxActiveTasks;
 
     // Asignar externamente
@@ -22,14 +22,20 @@ public class TaskManager : MonoBehaviour {
         delayBetweenTasks = 2;
         currentTime = 1;
 
-        maxActiveTasks = 6;
+        maxActiveTasks = System.Math.Min(2, tasks.Count);
         numTasks = 0;
 
-        Invoke("TaskCompleted", 2);
-    }
+        if (maxActiveTasks > 1) {
+            Invoke("ActivateTask", 2);
+        }
+    }   
 
     private void ResetTimer() {
-        currentTime = delayBetweenTasks * (maxActiveTasks - numTasks);
+        if (numTasks >= maxActiveTasks) {
+            currentTime = numTasks;
+        } else {
+            currentTime = delayBetweenTasks * (maxActiveTasks - numTasks);
+        }
     }
 
     // Update is called once per frame
@@ -49,15 +55,13 @@ public class TaskManager : MonoBehaviour {
 
     void ActivateTask() {
         bool activated = false;
-        int randomNumber;
-        while (!activated) {
-            randomNumber = Random.Range(0, tasks.Count );
-            activated = tasks[randomNumber].Initialize();
+        int randomNumber = Random.Range(0, tasks.Count );
+        if ( tasks[randomNumber].Initialize() ) {
+            numTasks++;
         }
-        numTasks++;
     }
 
-    public void TaskCompleted() {
+    public void TaskDone() {
         numTasks--;
         currentTime -= delayBetweenTasks/2;
     }

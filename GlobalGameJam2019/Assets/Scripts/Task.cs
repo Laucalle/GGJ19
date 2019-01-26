@@ -1,21 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Task : MonoBehaviour {
 
-    private BoxCollider2D boxCollider;
+    public BoxCollider2D boxCollider;
 
-    private int points;
+    private int currentPoints;
     private bool is_active;
-    private float currentTime;
+    float currentTime;
     private Player player1, player2;
-    private TaskManager taskManager;
+    public TaskManager taskManager;
+    public Canvas timerCanvas;
+    public Image timer;
 
     // Asignar externamente 
-    public float completationStress;
+    public float completionStress;
     public float timeOutStress;
-    public int maxPoints;
+    public int pointsToCompletion;
     public float timeToCompletion;
     public Animator animator;
 
@@ -23,14 +26,18 @@ public class Task : MonoBehaviour {
     void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
-        points = 0;
+        timerCanvas = transform.GetChild(0).GetComponent<Canvas>();
+        timer = timerCanvas.transform.GetChild(0).GetComponent<Image>().transform.GetChild(0).GetComponent<Image>();
+        timerCanvas.enabled = false;
     }
 
     // Update is called once per frame
     void Update() {
         if (is_active) {
             currentTime -= Time.deltaTime;
+            timer.fillAmount = currentTime / timeToCompletion;
             if (currentTime <= 0) {
+                Debug.Log("Explota");
                 TimeOut();
             }
         }
@@ -45,7 +52,8 @@ public class Task : MonoBehaviour {
 
     private void Deactivate() {
         is_active = false;
-        taskManager.TaskCompleted();
+        taskManager.TaskDone();
+        timerCanvas.enabled = false;
     }
 
     public void Create(Player p1, Player p2, TaskManager tm) {
@@ -60,17 +68,19 @@ public class Task : MonoBehaviour {
         bool ret = !is_active;
         if (!is_active) {
             is_active = true;
-            points = 0;
+            currentPoints = 0;
             currentTime = timeToCompletion;
+            timerCanvas.enabled = true;
+            timer.fillAmount = 360;
         }
         return ret;
     }
 
     public void WorkOn(Player p) {
         if (is_active) {
-            points += 10;
-            if (points >= maxPoints) {
-                p.IncreaseStress(completationStress);
+            currentPoints += 1;
+            if (currentPoints >= pointsToCompletion) {
+                p.IncreaseStress(completionStress);
                 Deactivate();
                 animator.SetTrigger("Done");
             }
