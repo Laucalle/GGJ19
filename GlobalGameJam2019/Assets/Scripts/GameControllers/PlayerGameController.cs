@@ -10,6 +10,9 @@ public class PlayerGameController : MonoBehaviour {
 	[SerializeField]
 	private float distanceThreshold;
 
+	[SerializeField]
+	private float stressRelieved, stressAdded;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -31,7 +34,16 @@ public class PlayerGameController : MonoBehaviour {
 	private bool arePlayersClose(){
 		float distanceBetweenPlayers = Vector3.Distance (player1.transform.position,
 			                               player2.transform.position);
-		Debug.Log("Distance between players: " + distanceBetweenPlayers);
 		return distanceBetweenPlayers <= distanceThreshold;
+	}
+
+	public void relieveStress(int playerID){
+		if (playerID != player1.transform.GetInstanceID ()) {
+			player1.IncreaseStress (stressAdded);
+			player2.DecreaseStress (stressRelieved);
+		} else {
+			player2.IncreaseStress (stressAdded);
+			player1.DecreaseStress (stressRelieved);
+		}
 	}
 }

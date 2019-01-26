@@ -5,6 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
 	[SerializeField]
+	private PlayerGameController playerGameController;
+
+	[SerializeField]
 	private float movementSpeed;
 
 	[SerializeField]
@@ -63,7 +66,10 @@ public class Player : MonoBehaviour {
 				movePlayerRight (movementSpeed * Time.deltaTime);
 			} else if (Input.GetKeyDown (crossDoorKey)) {
 				crossStairs ();
+			} else if (Input.GetKeyDown (stressReliefKey)) {
+				relieveStress();
 			}
+
 		} else if(!isPlayerStunned){
 			stunPlayer ();
 		}
@@ -127,6 +133,10 @@ public class Player : MonoBehaviour {
 		//TODO reset stress level
 		//
 		playerStress.resetStress();
+	}
+
+	public void relieveStress(){
+		playerGameController.relieveStress (transform.GetInstanceID ());
 	}
 		
 }
