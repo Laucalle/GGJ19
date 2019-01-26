@@ -20,7 +20,9 @@ public class Door : MonoBehaviour {
 		
 	}
 
-    public Transform Cross() {
-        return connectedDoor.transform;
+	public Vector2 Cross() {
+		return connectedDoor.transform.position;
     }
+
+
 }
