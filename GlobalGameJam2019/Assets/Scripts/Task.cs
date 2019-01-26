@@ -16,7 +16,7 @@ public class Task : MonoBehaviour {
     public float completationStress;
     public float timeOutStress;
     public int maxPoints;
-    public float timeToCompletation;
+    public float timeToCompletion;
 
     // Start is called before the first frame update
     void Start() {
@@ -35,10 +35,14 @@ public class Task : MonoBehaviour {
     }
 
     private void TimeOut() {
-        
         player1.IncreaseStress(timeOutStress);
         player2.IncreaseStress(timeOutStress);
+        Deactivate();
+    }
+
+    private void Deactivate() {
         is_active = false;
+        taskManager.TaskCompleted();
     }
 
     public void Create(Player p1, Player p2, TaskManager tm) {
@@ -47,13 +51,14 @@ public class Task : MonoBehaviour {
         taskManager = tm;
     }
 
+
     // Devuelve true si la tarea se inicializa
     public bool Initialize() {
         bool ret = !is_active;
         if (!is_active) {
             is_active = true;
             points = 0;
-            currentTime = timeToCompletation;
+            currentTime = timeToCompletion;
         }
         return ret;
     }
@@ -63,7 +68,7 @@ public class Task : MonoBehaviour {
             points += 10;
             if (points >= maxPoints) {
                 p.IncreaseStress(completationStress);
-                is_active = false;
+                Deactivate();
             }
         }
     }
