@@ -11,7 +11,7 @@ public class TaskManager : MonoBehaviour {
 
     // Asignar externamente
     public List<Task> tasks;
-    Player player1, player2;
+    public Player player1, player2;
 
     // Start is called before the first frame update
     void Start() {
