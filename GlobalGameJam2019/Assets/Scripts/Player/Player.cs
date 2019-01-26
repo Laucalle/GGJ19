@@ -8,6 +8,9 @@ public class Player : MonoBehaviour {
 	private PlayerGameController playerGameController;
 
 	[SerializeField]
+	private GameObject sprite;
+
+	[SerializeField]
 	private float movementSpeed;
 
 	[SerializeField]
@@ -36,9 +39,12 @@ public class Player : MonoBehaviour {
 
 	private bool isPlayerStunned;
 	private float remainingStunTime;
+    private bool running;
 
 	[SerializeField]
 	private int stunDuration;
+
+    public List<AnimatorOverrideController> animatorOverriders;
 
 	// Use this for initialization
 	void Start () {
@@ -50,33 +56,34 @@ public class Player : MonoBehaviour {
 		currentDoor = null;
 		isPlayerStunned = false;
 		remainingStunTime = 0.0f;
+        running = false;
 
-	}
+        InitializeAnimator();
+    }
 	
 	// Update is called once per frame
 	void Update () {
+        if (!isPlayerStunned) {
+            if (!playerStress.isStressMaxed()) {
+                if (Input.GetKey(leftMovementKey)) {
+                    movePlayerLeft(movementSpeed * Time.deltaTime);
+                } else if (Input.GetKey(rightMovementKey)) {
+                    movePlayerRight(movementSpeed * Time.deltaTime);
+                } else if (Input.GetKeyDown(crossDoorKey)) {
+                    crossStairs();
+                } else if (Input.GetKeyDown(stressReliefKey)) {
+                    relieveStress();
+                } else {
+                    animator.SetBool("Running", false);
+                    running = false;
+                }
 
-		Debug.Log (gameObject.name);
-		Debug.Log (playerStress.getCurrentStressLevel ());
-
-		if (!playerStress.isStressMaxed() && !isPlayerStunned) {
-			if (Input.GetKey (leftMovementKey)) {
-				movePlayerLeft (movementSpeed * Time.deltaTime);
-			} else if (Input.GetKey (rightMovementKey)) {
-				movePlayerRight (movementSpeed * Time.deltaTime);
-			} else if (Input.GetKeyDown (crossDoorKey)) {
-				crossStairs ();
-			} else if (Input.GetKeyDown (stressReliefKey)) {
-				relieveStress();
-			}
-
-		} else if(!isPlayerStunned){
-			stunPlayer ();
-		}
+            }
+        }
 
 	}
 
-	private void crossStairs(){
+	private void crossStairs() {
 		if (currentDoor != null) {
 			transform.position = currentDoor.Cross();
 			animator.SetTrigger ("Doors");
@@ -84,12 +91,19 @@ public class Player : MonoBehaviour {
 	}
 		
 	private void movePlayerLeft(float distance){
-		transform.Translate (Vector2.left * distance);
+        RunningLookingRight(false);
+        transform.Translate (Vector2.left * distance);
 	}
 
 	private void movePlayerRight(float distance){
-		transform.Translate (Vector2.right * distance);
+        RunningLookingRight(true);
+        transform.Translate (Vector2.right * distance);
 	}
+
+    private void InitializeAnimator() {
+        int randomNumber = Random.Range(0, animatorOverriders.Count);
+        animator.runtimeAnimatorController = animatorOverriders[randomNumber];
+    }
 
 	public void autoIncreaseStress(){
 		playerStress.autoIncreaseStressLevel ();
@@ -125,18 +139,40 @@ public class Player : MonoBehaviour {
 
 	public void stunPlayer(){
 		isPlayerStunned = true;
+		animator.SetTrigger ("Stun");
 		Invoke ("unStunPlayer", stunDuration);
 	}
 
 	public void unStunPlayer(){
 		isPlayerStunned = false;
-		//TODO reset stress level
-		//
+		animator.SetTrigger ("Unstun");
 		playerStress.resetStress();
 	}
 
 	public void relieveStress(){
 		playerGameController.relieveStress (transform.GetInstanceID ());
 	}
-		
+
+    /*
+	private void startRunningRightAnimation(){
+		sprite.GetComponent<SpriteRenderer> ().flipX = false;
+		//animator.Play ("RunningRight");
+		animator.SetTrigger ("runRight");
+	}
+
+	private void startRunningLeftAnimation(){
+		sprite.GetComponent<SpriteRenderer> ().flipX = true;
+		//animator.Play ("RunningLeft");
+		animator.SetTrigger ("runLeft");
+	}
+    */
+
+    private void RunningLookingRight(bool right) {
+        if (!running) {
+            running = true;
+            animator.SetBool("Running", true);
+        }
+
+        GetComponent<SpriteRenderer>().flipX = !right;
+    }
 }
