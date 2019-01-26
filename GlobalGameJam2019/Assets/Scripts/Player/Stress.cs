@@ -25,12 +25,16 @@ public class Stress : MonoBehaviour {
 
 	}
 
+	public float getCurrentStressLevel(){
+		return currentStressLevel;
+	}
+
 	public void autoIncreaseStressLevel(){
-		currentStressLevel += stressAutoIncrease * Time.deltaTime;
+		increaseStressLevel(stressAutoIncrease * Time.deltaTime);
 	}
 
 	public void autoDecreaseStressLevel(){
-		currentStressLevel -= stressAutoDecrease * Time.deltaTime;
+		decreaseStressLevel(stressAutoDecrease * Time.deltaTime);
 	}
 
 	public void increaseStressLevel(float stressQuantity){

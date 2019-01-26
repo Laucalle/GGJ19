@@ -31,6 +31,7 @@ public class PlayerGameController : MonoBehaviour {
 	private bool arePlayersClose(){
 		float distanceBetweenPlayers = Vector3.Distance (player1.transform.position,
 			                               player2.transform.position);
+		Debug.Log("Distance between players: " + distanceBetweenPlayers);
 		return distanceBetweenPlayers <= distanceThreshold;
 	}
 }

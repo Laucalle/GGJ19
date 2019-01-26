@@ -53,6 +53,9 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		Debug.Log (gameObject.name);
+		Debug.Log (playerStress.getCurrentStressLevel ());
+
 		if (!playerStress.isStressMaxed() && !isPlayerStunned) {
 			if (Input.GetKey (leftMovementKey)) {
 				movePlayerLeft (movementSpeed * Time.deltaTime);
