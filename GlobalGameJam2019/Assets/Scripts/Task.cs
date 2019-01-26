@@ -37,7 +37,6 @@ public class Task : MonoBehaviour {
             currentTime -= Time.deltaTime;
             timer.fillAmount = currentTime / timeToCompletion;
             if (currentTime <= 0) {
-                Debug.Log("Explota");
                 TimeOut();
             }
         }
@@ -47,7 +46,7 @@ public class Task : MonoBehaviour {
         player1.IncreaseStress(timeOutStress);
         player2.IncreaseStress(timeOutStress);
         Deactivate();
-        animator.SetTrigger("TimeOut");
+        animator.SetTrigger("IdleBroken");
     }
 
     private void Deactivate() {
@@ -60,7 +59,6 @@ public class Task : MonoBehaviour {
         player1 = p1;
         player2 = p2;
         taskManager = tm;
-        animator.SetTrigger("Active");
     }
 
     // Devuelve true si la tarea se inicializa
@@ -72,6 +70,7 @@ public class Task : MonoBehaviour {
             currentTime = timeToCompletion;
             timerCanvas.enabled = true;
             timer.fillAmount = 360;
+            animator.SetTrigger("Active");
         }
         return ret;
     }
@@ -82,7 +81,7 @@ public class Task : MonoBehaviour {
             if (currentPoints >= pointsToCompletion) {
                 p.IncreaseStress(completionStress);
                 Deactivate();
-                animator.SetTrigger("Done");
+                animator.SetTrigger("Idle");
             }
         }
     }
