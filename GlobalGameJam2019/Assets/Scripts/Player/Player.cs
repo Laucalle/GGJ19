@@ -31,27 +31,40 @@ public class Player : MonoBehaviour {
 
 	private Stress playerStress;
 
+	private bool isPlayerStunned;
+	private float remainingStunTime;
+
+	[SerializeField]
+	private int stunDuration;
+
 	// Use this for initialization
 	void Start () {
 		boxCollider = GetComponent<BoxCollider2D>();
 		rigibody = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
+		playerStress = GetComponent<Stress>();
 
 		currentDoor = null;
+		isPlayerStunned = false;
+		remainingStunTime = 0.0f;
 
-		playerStress = GetComponent<Stress>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetKey (leftMovementKey)) {
-			movePlayerLeft (movementSpeed * Time.deltaTime);
-		} else if (Input.GetKey (rightMovementKey)) {
-			movePlayerRight (movementSpeed * Time.deltaTime);
-		} else if (Input.GetKeyDown (crossDoorKey)) {
-			crossStairs ();
+		if (!playerStress.isStressMaxed() && !isPlayerStunned) {
+			if (Input.GetKey (leftMovementKey)) {
+				movePlayerLeft (movementSpeed * Time.deltaTime);
+			} else if (Input.GetKey (rightMovementKey)) {
+				movePlayerRight (movementSpeed * Time.deltaTime);
+			} else if (Input.GetKeyDown (crossDoorKey)) {
+				crossStairs ();
+			}
+		} else if(!isPlayerStunned){
+			stunPlayer ();
 		}
+
 	}
 
 	private void crossStairs(){
@@ -69,8 +82,20 @@ public class Player : MonoBehaviour {
 		transform.Translate (Vector2.right * distance);
 	}
 
+	public void autoIncreaseStress(){
+		playerStress.autoIncreaseStressLevel ();
+	}
+
+	public void autoDecreaseStress(){
+		playerStress.autoDecreaseStressLevel ();
+	}
+
 	public void IncreaseStress(float quantity){
 		playerStress.increaseStressLevel (quantity);
+	}
+
+	public void DecreaseStress(float quantity){
+		playerStress.decreaseStressLevel (quantity);
 	}
 
 	void OnTriggerEnter2D(Collider2D collisionObject){
@@ -88,4 +113,17 @@ public class Player : MonoBehaviour {
 			currentTask = null;
 		}
 	}
+
+	public void stunPlayer(){
+		isPlayerStunned = true;
+		Invoke ("unStunPlayer", stunDuration);
+	}
+
+	public void unStunPlayer(){
+		isPlayerStunned = false;
+		//TODO reset stress level
+		//
+		playerStress.resetStress();
+	}
+		
 }

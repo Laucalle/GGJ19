@@ -10,7 +10,7 @@ public class Stress : MonoBehaviour {
 	private float maxStressValue;
 
 	[SerializeField]
-	private float stressAutoIncrease;
+	private float stressAutoIncrease, stressAutoDecrease;
 
 	private float currentStressLevel;
 
@@ -22,7 +22,15 @@ public class Stress : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		increaseStressLevel (stressAutoIncrease * Time.deltaTime);
+
+	}
+
+	public void autoIncreaseStressLevel(){
+		currentStressLevel += stressAutoIncrease * Time.deltaTime;
+	}
+
+	public void autoDecreaseStressLevel(){
+		currentStressLevel -= stressAutoDecrease * Time.deltaTime;
 	}
 
 	public void increaseStressLevel(float stressQuantity){
@@ -43,6 +51,14 @@ public class Stress : MonoBehaviour {
 		} else {
 			currentStressLevel = newStressLevel;
 		}
+	}
+
+	public void resetStress(){
+		currentStressLevel = 0.0f;
+	}
+
+	public bool isStressMaxed(){
+		return currentStressLevel >= maxStressValue;
 	}
 
 }
