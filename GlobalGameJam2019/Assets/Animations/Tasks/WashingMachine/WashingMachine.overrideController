@@ -6,5 +6,11 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: WashingMachine
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 6970f663e17a0ed42a6d56ceb64f8cfc, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d5974877dd15bc3458292797ebdb8e4b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f7411b031e7222e458d6d76530698c0d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2d2dad1b775ecf245894668e6f24b0e8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 05525554b606c2741b2fb1e251795620, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f093114500e9b44ea8aadcf94378e06, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: eadeed2f53981b941b43960183b1d1f7, type: 2}
