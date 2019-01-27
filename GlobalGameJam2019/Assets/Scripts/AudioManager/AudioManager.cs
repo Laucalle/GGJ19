@@ -52,8 +52,9 @@ public class AudioManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         float totalstress = playerGameController.getCurrentMaxStressLevel();
+
         AudioNode nextAudioNode = currentNode.nextChild(totalstress);
-        Debug.Log(audioSource.clip.name);
+
         if (currentNode.getAudioClip().name != nextAudioNode.getAudioClip().name){
             audioSource.loop = false;
         }
