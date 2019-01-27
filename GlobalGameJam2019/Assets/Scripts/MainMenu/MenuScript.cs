@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuScript : MonoBehaviour {
+
+	[SerializeField]
+	private GameObject mainMenuObject, creditsGameObject;
 	
 	public void LoadSceneAsync(string sceneName){
 
@@ -19,6 +22,16 @@ public class MenuScript : MonoBehaviour {
 
 	public void Quit(){
 		Application.Quit ();
+	}
+
+	public void ShowCredits(){
+		mainMenuObject.SetActive (false);
+		creditsGameObject.SetActive (true);
+	}
+
+	public void BackFromCreditsToMenu(){
+		creditsGameObject.SetActive (false);
+		mainMenuObject.SetActive (true);
 	}
 
 }
