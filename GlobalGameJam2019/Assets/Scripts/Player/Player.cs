@@ -19,8 +19,8 @@ public class Player : MonoBehaviour {
 		rightMovementKey;
 
 	[SerializeField]
-	private KeyCode crossDoorKey,
-                    solveTaskKey;
+	private KeyCode crossDoorKey;
+	private KeyCode solveTaskKey;
 
 	[SerializeField]
 	private KeyCode stressReliefKey;
@@ -48,6 +48,12 @@ public class Player : MonoBehaviour {
 
     public List<AnimatorOverrideController> animatorOverriders;
 
+	[SerializeField]
+	private List<KeyCode> possibleSolveTaskKeycodes;
+
+	[SerializeField]
+	private float timeBetweenChangeSolveTaskKey;
+
 	// Use this for initialization
 	void Start () {
 		boxCollider = GetComponent<BoxCollider2D>();
@@ -67,6 +73,8 @@ public class Player : MonoBehaviour {
 
         currentlyWorking = false;
         workingDuration = 0.5f;
+
+		changeSolveTaskKeyAtRandom ();
     }
 	
 	// Update is called once per frame
@@ -202,4 +210,13 @@ public class Player : MonoBehaviour {
 
         GetComponent<SpriteRenderer>().flipX = !right;
     }
+
+	private void changeSolveTaskKeyAtRandom(){
+		solveTaskKey = possibleSolveTaskKeycodes[Random.Range(0,possibleSolveTaskKeycodes.Count-1)];
+		Invoke ("changeSolveTaskKeyAtRandom", timeBetweenChangeSolveTaskKey);
+	}
+
+	public string solveTaskKeyCodeString(){
+		return solveTaskKey.ToString();
+	}
 }
