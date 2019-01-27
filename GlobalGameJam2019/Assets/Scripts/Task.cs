@@ -23,6 +23,9 @@ public class Task : MonoBehaviour {
     public int pointsToCompletion;
     public float timeToCompletion;
     public Animator animator;
+    public AudioClip onBrokenClip, whileBrokenClip, onFixedClip;
+    public AudioSource audioSource;
+
 
     // Start is called before the first frame update
     void Start() {
@@ -50,19 +53,38 @@ public class Task : MonoBehaviour {
             }
         }
     }
+    private void playBroken(){
+        audioSource.clip = whileBrokenClip;
+        audioSource.loop = true;
+        audioSource.Play();
 
+    }
     private void TimeOut() {
         player1.IncreaseStress(timeOutStress);
         player2.IncreaseStress(timeOutStress);
 		Deactivate(false);
         DeactivateCompletionCanvas();
         animator.SetTrigger("IdleBroken");
+        if (onBrokenClip!=null){
+            audioSource.PlayOneShot(onBrokenClip);
+            Invoke("playBroken", onBrokenClip.length);
+        }
+        else if(whileBrokenClip!=null){
+            playBroken();
+        }
+        
     }
 
     private void Deactivate(bool isTaskDone) {
         is_active = false;
-		taskManager.TaskDone(isTaskDone);
+        taskManager.TaskDone(isTaskDone);
         timerCanvas.enabled = false;
+        audioSource.Stop();
+        audioSource.loop = false;
+        if (onFixedClip != null){
+            audioSource.PlayOneShot(onFixedClip);
+        }
+
     }
 
     public void Create(Player p1, Player p2, TaskManager tm) {

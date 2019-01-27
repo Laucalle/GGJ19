@@ -56,7 +56,10 @@ public class AudioManager : MonoBehaviour {
         AudioNode nextAudioNode = currentNode.nextChild(totalstress);
 
         if (currentNode.getAudioClip().name != nextAudioNode.getAudioClip().name){
+            float currentTime = audioSource.time;
             audioSource.loop = false;
+            audioSource.time = currentTime;
+            audioSource.Play();
         }
         if (!audioSource.isPlaying){
             currentNode = nextAudioNode;
