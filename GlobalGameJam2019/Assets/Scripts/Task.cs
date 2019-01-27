@@ -9,11 +9,13 @@ public class Task : MonoBehaviour {
 
     private int currentPoints;
     private bool is_active;
-    float currentTime;
+    private float currentTime;
     private Player player1, player2;
-    public TaskManager taskManager;
-    public Canvas timerCanvas;
-    public Image timer;
+    private TaskManager taskManager;
+    private Canvas timerCanvas;
+    private Canvas completionCanvas;
+    private Image timer;
+    private Image completionImage;
 
     // Asignar externamente 
     public float completionStress;
@@ -26,9 +28,16 @@ public class Task : MonoBehaviour {
     void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+
+        is_active = false;
+
         timerCanvas = transform.GetChild(0).GetComponent<Canvas>();
         timer = timerCanvas.transform.GetChild(0).GetComponent<Image>().transform.GetChild(0).GetComponent<Image>();
         timerCanvas.enabled = false;
+
+        completionCanvas = transform.GetChild(1).GetComponent<Canvas>();
+        completionImage = completionCanvas.transform.GetChild(0).GetComponent<Image>().transform.GetChild(0).GetComponent<Image>();
+        completionCanvas.enabled = false;
     }
 
     // Update is called once per frame
@@ -46,6 +55,7 @@ public class Task : MonoBehaviour {
         player1.IncreaseStress(timeOutStress);
         player2.IncreaseStress(timeOutStress);
         Deactivate();
+        DeactivateCompletionCanvas();
         animator.SetTrigger("IdleBroken");
     }
 
@@ -63,27 +73,40 @@ public class Task : MonoBehaviour {
 
     // Devuelve true si la tarea se inicializa
     public bool Initialize() {
-        bool ret = !is_active;
+        bool wasnt_active = !is_active;
         if (!is_active) {
             is_active = true;
             currentPoints = 0;
             currentTime = timeToCompletion;
+
             timerCanvas.enabled = true;
             timer.fillAmount = 360;
+            
+            completionImage.fillAmount = 0; 
+
             animator.SetTrigger("Active");
         }
-        return ret;
+        return wasnt_active;
     }
 
-    public void WorkOn(Player p) {
+    public bool WorkOn(Player p) {
+        bool was_active = is_active;
         if (is_active) {
             currentPoints += 1;
+            completionCanvas.enabled = true;
+            completionImage.fillAmount = (float) currentPoints / pointsToCompletion;
             if (currentPoints >= pointsToCompletion) {
                 p.IncreaseStress(completionStress);
                 Deactivate();
                 animator.SetTrigger("Idle");
+                Invoke("DeactivateCompletionCanvas", 0.3f);
             }
         }
+        return was_active;
+    }
+
+    private void DeactivateCompletionCanvas() {
+        completionCanvas.enabled = false;
     }
 
 }

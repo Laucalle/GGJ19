@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Rats
+  m_Controller: {fileID: 9100000, guid: 6970f663e17a0ed42a6d56ceb64f8cfc, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d5974877dd15bc3458292797ebdb8e4b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: aa7d1b1a18b333643a437d71496f2763, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2d2dad1b775ecf245894668e6f24b0e8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: bf60c6e4236f09b47ab5147374a49eef, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f093114500e9b44ea8aadcf94378e06, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a445e2dc817654b4596638333906fb03, type: 2}

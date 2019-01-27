@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Throne
+  m_Controller: {fileID: 9100000, guid: 6970f663e17a0ed42a6d56ceb64f8cfc, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d5974877dd15bc3458292797ebdb8e4b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cddec26eb29dd084889f01949a994a57, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2d2dad1b775ecf245894668e6f24b0e8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6124aa4a6990401499abdd7c240c3cce, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f093114500e9b44ea8aadcf94378e06, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 56f51aa1b329ffe4eaeee2d057a13b35, type: 2}

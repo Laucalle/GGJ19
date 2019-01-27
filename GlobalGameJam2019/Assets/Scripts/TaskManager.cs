@@ -19,10 +19,10 @@ public class TaskManager : MonoBehaviour {
             t.Create( player1, player2, this );
         }
 
-        delayBetweenTasks = 2;
+        delayBetweenTasks = 5;
         currentTime = 1;
 
-        maxActiveTasks = System.Math.Min(2, tasks.Count);
+        maxActiveTasks = System.Math.Min(6, tasks.Count);
         numTasks = 0;
 
         if (maxActiveTasks > 1) {
@@ -31,11 +31,7 @@ public class TaskManager : MonoBehaviour {
     }   
 
     private void ResetTimer() {
-        if (numTasks >= maxActiveTasks) {
-            currentTime = numTasks;
-        } else {
-            currentTime = delayBetweenTasks * (maxActiveTasks - numTasks);
-        }
+        currentTime = 5;// delayBetweenTasks * numTasks;
     }
 
     // Update is called once per frame

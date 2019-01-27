@@ -6,5 +6,13 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: RedFemale
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 91dd8740db5891a44be79a0123e7d6af, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 3b94998685fccce44a801a5f497c8da7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 141cc16e0dfa3694b918ba948292c6bc, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 76ee72c4f8ece1a45972723dda17a2db, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b559a92ce1c23894f9c2fe7b2ce26d56, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f8e16841eb4cb574bbba9849ad73a311, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 49adbe56d0f73b247902f1c0a5361698, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 531389c2b90a7a64fb869692d35f658f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: caae138808ccb7f4b944a30083d03fda, type: 2}

@@ -6,5 +6,5 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: RedMale
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91dd8740db5891a44be79a0123e7d6af, type: 2}
   m_Clips: []

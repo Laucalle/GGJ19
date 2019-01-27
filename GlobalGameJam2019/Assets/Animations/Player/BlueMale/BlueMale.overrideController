@@ -6,5 +6,13 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: BlueMale
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 91dd8740db5891a44be79a0123e7d6af, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 3b94998685fccce44a801a5f497c8da7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 92cad50b6c43b7d4d84a1023f903da72, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 76ee72c4f8ece1a45972723dda17a2db, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 16424c5f44e7f664597486a650003081, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f8e16841eb4cb574bbba9849ad73a311, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 039bdaddc2ed5d140aa12da7907aa233, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 531389c2b90a7a64fb869692d35f658f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 20e52f3c35182cb43b9905d2cce98dc0, type: 2}

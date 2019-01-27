@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Dishes
+  m_Controller: {fileID: 9100000, guid: 6970f663e17a0ed42a6d56ceb64f8cfc, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d5974877dd15bc3458292797ebdb8e4b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e944ccd03cf71fe479fea6246d4605e6, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2d2dad1b775ecf245894668e6f24b0e8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 136aecd39f7f73740b4e6d8a327720ec, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f093114500e9b44ea8aadcf94378e06, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6dc2c0313b2d7b14d852818e76f07802, type: 2}

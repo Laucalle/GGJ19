@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114127989622100784}
   - component: {fileID: 212525874800773790}
   - component: {fileID: 95474917968454694}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,6 +92,7 @@ MonoBehaviour:
   leftMovementKey: 97
   rightMovementKey: 100
   crossDoorKey: 0
+  solveTaskKey: 0
   stressReliefKey: 0
   blockingLayer:
     serializedVersion: 2
