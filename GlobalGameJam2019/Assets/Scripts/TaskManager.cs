@@ -13,6 +13,8 @@ public class TaskManager : MonoBehaviour {
     public List<Task> tasks;
     public Player player1, player2;
 
+	private int quantityOfTasksCompleted;
+
     // Start is called before the first frame update
     void Start() {
         foreach (Task t in tasks) {
@@ -28,6 +30,7 @@ public class TaskManager : MonoBehaviour {
         if (maxActiveTasks > 1) {
             Invoke("ActivateTask", 2);
         }
+		quantityOfTasksCompleted = 0;
     }   
 
     private void ResetTimer() {
@@ -57,8 +60,16 @@ public class TaskManager : MonoBehaviour {
         }
     }
 
-    public void TaskDone() {
+    public void TaskDone(bool isTaskDone) {
         numTasks--;
         currentTime -= delayBetweenTasks/2;
+
+		if (isTaskDone) {
+			quantityOfTasksCompleted++;
+		}
     }
+		
+	public int getQuantityOfTasksCompleted() {
+		return quantityOfTasksCompleted;	
+	}
 }

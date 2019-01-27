@@ -54,14 +54,14 @@ public class Task : MonoBehaviour {
     private void TimeOut() {
         player1.IncreaseStress(timeOutStress);
         player2.IncreaseStress(timeOutStress);
-        Deactivate();
+		Deactivate(false);
         DeactivateCompletionCanvas();
         animator.SetTrigger("IdleBroken");
     }
 
-    private void Deactivate() {
+    private void Deactivate(bool isTaskDone) {
         is_active = false;
-        taskManager.TaskDone();
+		taskManager.TaskDone(isTaskDone);
         timerCanvas.enabled = false;
     }
 
@@ -97,7 +97,7 @@ public class Task : MonoBehaviour {
             completionImage.fillAmount = (float) currentPoints / pointsToCompletion;
             if (currentPoints >= pointsToCompletion) {
                 p.IncreaseStress(completionStress);
-                Deactivate();
+				Deactivate(true);
                 animator.SetTrigger("Idle");
                 Invoke("DeactivateCompletionCanvas", 0.3f);
             }
