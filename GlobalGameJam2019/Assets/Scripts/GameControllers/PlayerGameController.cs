@@ -46,4 +46,14 @@ public class PlayerGameController : MonoBehaviour {
 			player1.DecreaseStress (stressRelieved);
 		}
 	}
+
+	public float getCurrentMaxStressLevel(){
+		float player1Stress = player1.getCurrentStressLevel ();
+		float player2Sstres = player2.getCurrentStressLevel ();
+
+		if (player1Stress > player2Sstres) {
+			return player1Stress;
+		}
+		return player2Sstres;
+	}
 }
