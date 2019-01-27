@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Task : MonoBehaviour {
 
-    public BoxCollider2D boxCollider;
+    private BoxCollider2D boxCollider;
 
     private int currentPoints;
     private bool is_active;
@@ -22,15 +22,16 @@ public class Task : MonoBehaviour {
     public float timeOutStress;
     public int pointsToCompletion;
     public float timeToCompletion;
-    public Animator animator;
+    private Animator animator;
     public AudioClip onBrokenClip, whileBrokenClip, onFixedClip;
-    public AudioSource audioSource;
+    private AudioSource audioSource;
 
 
     // Start is called before the first frame update
     void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         is_active = false;
 
@@ -53,26 +54,18 @@ public class Task : MonoBehaviour {
             }
         }
     }
-    private void playBroken(){
+    private void playBroken() {
         audioSource.clip = whileBrokenClip;
         audioSource.loop = true;
         audioSource.Play();
-
     }
+
     private void TimeOut() {
         player1.IncreaseStress(timeOutStress);
         player2.IncreaseStress(timeOutStress);
 		Deactivate(false);
         DeactivateCompletionCanvas();
-        animator.SetTrigger("IdleBroken");
-        if (onBrokenClip!=null){
-            audioSource.PlayOneShot(onBrokenClip);
-            Invoke("playBroken", onBrokenClip.length);
-        }
-        else if(whileBrokenClip!=null){
-            playBroken();
-        }
-        
+        animator.SetTrigger("IdleBroken");        
     }
 
     private void Deactivate(bool isTaskDone) {
@@ -80,11 +73,13 @@ public class Task : MonoBehaviour {
         taskManager.TaskDone(isTaskDone);
         timerCanvas.enabled = false;
         audioSource.Stop();
+        
         audioSource.loop = false;
-        if (onFixedClip != null){
-            audioSource.PlayOneShot(onFixedClip);
+        if (isTaskDone) {
+            if (onFixedClip != null) {
+                audioSource.PlayOneShot(onFixedClip);
+            }
         }
-
     }
 
     public void Create(Player p1, Player p2, TaskManager tm) {
@@ -107,6 +102,14 @@ public class Task : MonoBehaviour {
             completionImage.fillAmount = 0; 
 
             animator.SetTrigger("Active");
+
+            if (onBrokenClip != null) {
+                audioSource.PlayOneShot(onBrokenClip);
+                Invoke("playBroken", onBrokenClip.length);
+            } else if (whileBrokenClip != null) {
+                playBroken();
+            }
+
         }
         return wasnt_active;
     }
