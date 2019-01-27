@@ -65,4 +65,7 @@ public class Stress : MonoBehaviour {
 		return currentStressLevel >= maxStressValue;
 	}
 
+    public float getCurrentStressNormalized() {
+        return (currentStressLevel - MIN_STRESS_VALUE) / (maxStressValue - MIN_STRESS_VALUE);
+    }
 }

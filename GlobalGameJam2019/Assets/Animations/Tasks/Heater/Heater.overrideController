@@ -6,5 +6,11 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Heater
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 6970f663e17a0ed42a6d56ceb64f8cfc, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d5974877dd15bc3458292797ebdb8e4b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ed1814a5d63bce14eac3fa5225e796c8, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2d2dad1b775ecf245894668e6f24b0e8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 69b7cbdfd59cd744481f5de3de97f17c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6f093114500e9b44ea8aadcf94378e06, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 47266cf510061904697421b13737b657, type: 2}

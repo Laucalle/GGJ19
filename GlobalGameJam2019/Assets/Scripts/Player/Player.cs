@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -31,6 +32,10 @@ public class Player : MonoBehaviour {
 	public LayerMask blockingLayer;
 	private AudioSource audioSource;
     private Stress playerStress;
+
+    [SerializeField]
+    private Canvas PlayerCanvas;
+    private Image StressImage;
 
     private Door currentDoor;
 	private Task currentTask;
@@ -73,8 +78,14 @@ public class Player : MonoBehaviour {
 
         currentlyWorking = false;
         workingDuration = 0.5f;
+        
+        changeSolveTaskKeyAtRandom ();
 
-		changeSolveTaskKeyAtRandom ();
+        if (PlayerCanvas == null) {
+            Debug.Log("FALTA ASIGNAR EL PLAYER_CANVAS");
+        } else {
+            StressImage = PlayerCanvas.transform.GetChild(0).GetComponent<Image>().transform.GetChild(0).GetComponent<Image>();
+        }
     }
 	
 	// Update is called once per frame
@@ -100,7 +111,9 @@ public class Player : MonoBehaviour {
             }
         }
 
-	}
+        StressImage.fillAmount = playerStress.getCurrentStressNormalized();
+        Debug.Log(solveTaskKey);
+    }
 
     private void Working() {
         if (currentlyWorking) {
@@ -187,21 +200,7 @@ public class Player : MonoBehaviour {
 	public void relieveStress(){
 		playerGameController.relieveStress (transform.GetInstanceID ());
 	}
-
-    /*
-	private void startRunningRightAnimation(){
-		sprite.GetComponent<SpriteRenderer> ().flipX = false;
-		//animator.Play ("RunningRight");
-		animator.SetTrigger ("runRight");
-	}
-
-	private void startRunningLeftAnimation(){
-		sprite.GetComponent<SpriteRenderer> ().flipX = true;
-		//animator.Play ("RunningLeft");
-		animator.SetTrigger ("runLeft");
-	}
-    */
-
+    
     private void RunningLookingRight(bool right) {
         if (!currentlyRunning) {
             currentlyRunning = true;
@@ -219,4 +218,9 @@ public class Player : MonoBehaviour {
 	public string solveTaskKeyCodeString(){
 		return solveTaskKey.ToString();
 	}
+
+    public float getCurrentStressLevel() {
+        return playerStress.getCurrentStressLevel();
+    } 
+
 }
