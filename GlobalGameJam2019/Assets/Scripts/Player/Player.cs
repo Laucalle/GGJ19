@@ -84,7 +84,7 @@ public class Player : MonoBehaviour {
             Debug.Log("FALTA ASIGNAR EL PLAYER_CANVAS");
         } else {
             stressImage = playerCanvas.transform.GetChild(0).GetComponent<Image>().transform.GetChild(0).GetComponent<Image>();
-            keyText = playerCanvas.transform.GetChild(1).GetComponent<Image>().transform.GetChild(0).GetComponent<Text>();
+            keyText = playerCanvas.transform.GetChild(2).GetComponent<Text>();
         }
         
         changeSolveTaskKeyAtRandom();
@@ -114,7 +114,6 @@ public class Player : MonoBehaviour {
         }
 
         stressImage.fillAmount = playerStress.getCurrentStressNormalized();
-        Debug.Log(solveTaskKey);
     }
 
     private void Working() {

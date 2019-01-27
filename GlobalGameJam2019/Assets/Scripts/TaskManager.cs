@@ -10,16 +10,24 @@ public class TaskManager : MonoBehaviour {
     private int maxActiveTasks;
 
     // Asignar externamente
-    public List<Task> tasks;
+    private List<Task> tasks;
     public Player player1, player2;
 
 	private int quantityOfTasksCompleted;
 
     // Start is called before the first frame update
     void Start() {
+        int childrenCount = transform.childCount;
+        Debug.Log(childrenCount);
+        for (int i = 0; i < childrenCount; i++) {
+            transform.GetChild(i).GetComponent<Task>().Create(player1, player2, this);
+            tasks.Add(transform.GetChild(i).GetComponent<Task>());
+        }
+
+        /*
         foreach (Task t in tasks) {
             t.Create( player1, player2, this );
-        }
+        }*/
 
         delayBetweenTasks = 5;
         currentTime = 1;
