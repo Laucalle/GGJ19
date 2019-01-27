@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TaskManager : MonoBehaviour {
     
@@ -8,6 +9,11 @@ public class TaskManager : MonoBehaviour {
     private float currentTime;
     public int numTasks;
     private int maxActiveTasks;
+
+    public Canvas taskManagerCanvas;
+    private Text timerText, pointsText;
+
+    private float timeLeft;
 
     // Asignar externamente
     public List<Task> tasks;
@@ -23,13 +29,7 @@ public class TaskManager : MonoBehaviour {
             transform.GetChild(i).GetComponent<Task>().Create(player1, player2, this);
             tasks.Add(transform.GetChild(i).GetComponent<Task>());
         }
-
-        /*
-        foreach (Task t in tasks) {
-            t.Create( player1, player2, this );
-        }*/
-
-        delayBetweenTasks = 5;
+        delayBetweenTasks = 2;
         currentTime = 1;
 
         maxActiveTasks = System.Math.Min(6, tasks.Count);
@@ -38,16 +38,25 @@ public class TaskManager : MonoBehaviour {
         if (maxActiveTasks > 1) {
             Invoke("ActivateTask", 2);
         }
+
 		quantityOfTasksCompleted = 0;
-    }   
+
+        timerText = taskManagerCanvas.transform.GetChild(0).GetComponent<Text>();
+        pointsText = taskManagerCanvas.transform.GetChild(1).GetComponent<Text>();
+        pointsText.enabled = false;
+        timeLeft = 181;
+    }
 
     private void ResetTimer() {
-        currentTime = 5;// delayBetweenTasks * numTasks;
+        currentTime = delayBetweenTasks * numTasks;
     }
 
     // Update is called once per frame
     void Update() {
 
+        UpdateTimer();
+
+        timeLeft -= Time.deltaTime;
         currentTime -= Time.deltaTime;
 
         if (numTasks >= maxActiveTasks) {
@@ -58,6 +67,19 @@ public class TaskManager : MonoBehaviour {
             ActivateTask();
             ResetTimer();
         }
+
+        if (timeLeft <= 0) {
+            pointsText.text = "Score: " + quantityOfTasksCompleted.ToString();
+            pointsText.enabled = true;
+            Time.timeScale = 0;
+        }
+    }
+
+    void UpdateTimer() {
+        float minutes = (int) timeLeft / 60,
+              seconds = (int) (timeLeft % 60);
+        string message = minutes.ToString() + ":" + seconds.ToString("00");
+        timerText.text = message;
     }
 
     void ActivateTask() {

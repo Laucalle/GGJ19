@@ -12,7 +12,6 @@ public class Door : MonoBehaviour {
     // Use this for initialization
     void Start () {
         boxCollider = GetComponent<BoxCollider2D>();
-
     }
 	
 	// Update is called once per frame
@@ -24,5 +23,7 @@ public class Door : MonoBehaviour {
 		return connectedDoor.transform.position;
     }
 
-
+    public Door ConnectedDoor() {
+        return connectedDoor;
+    }
 }

@@ -20,13 +20,13 @@ public class AudioManager : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         
         nodeDict["START"] = new AudioNode(new Vector2(0, 0), null, null, clips[0]);
-        nodeDict["LowStressLoop"] = new AudioNode(new Vector2(0, 33), null, null, clips[1]);
-        nodeDict["MediumStressStart"] = new AudioNode(new Vector2(33, 66), null, null, clips[2]);
-        nodeDict["MediumStressLoop"] = new AudioNode(new Vector2(33, 66), null, null, clips[3]);
-        nodeDict["MediumStressExit"] = new AudioNode(new Vector2(66, 100), null, null, clips[4]);
-        nodeDict["HighStressStart"] = new AudioNode(new Vector2(66, 100), null, null, clips[5]);
-        nodeDict["HighStressLoop"] = new AudioNode(new Vector2(66, 100), null, null, clips[6]);
-        nodeDict["HighStressExit"] = new AudioNode(new Vector2(33, 66), null, null, clips[7]);
+        nodeDict["LowStressLoop"] = new AudioNode(new Vector2(0, 20), null, null, clips[1]);
+        nodeDict["MediumStressStart"] = new AudioNode(new Vector2(20, 50), null, null, clips[2]);
+        nodeDict["MediumStressLoop"] = new AudioNode(new Vector2(20, 50), null, null, clips[3]);
+        nodeDict["MediumStressExit"] = new AudioNode(new Vector2(50, 100), null, null, clips[4]);
+        nodeDict["HighStressStart"] = new AudioNode(new Vector2(50, 100), null, null, clips[5]);
+        nodeDict["HighStressLoop"] = new AudioNode(new Vector2(50, 100), null, null, clips[6]);
+        nodeDict["HighStressExit"] = new AudioNode(new Vector2(20, 50), null, null, clips[7]);
 
         nodeDict["START"].setReachableNodes(new List<AudioNode>{nodeDict["LowStressLoop"]});
         nodeDict["START"].setDefaultNode( nodeDict["LowStressLoop"] );
@@ -56,10 +56,10 @@ public class AudioManager : MonoBehaviour {
         AudioNode nextAudioNode = currentNode.nextChild(totalstress);
 
         if (currentNode.getAudioClip().name != nextAudioNode.getAudioClip().name){
-            float currentTime = audioSource.time;
+            //float currentTime = audioSource.time;
             audioSource.loop = false;
-            audioSource.time = currentTime;
-            audioSource.Play();
+            //audioSource.time = currentTime;
+            //audioSource.Play();
         }
         if (!audioSource.isPlaying){
             currentNode = nextAudioNode;

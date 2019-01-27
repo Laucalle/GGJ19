@@ -7,8 +7,7 @@ public class Player : MonoBehaviour {
 
 	[SerializeField]
 	private PlayerGameController playerGameController;
-
-	[SerializeField]
+    
 	private GameObject sprite;
 
 	[SerializeField]
@@ -44,10 +43,13 @@ public class Player : MonoBehaviour {
 	private bool isPlayerStunned;
 
     private bool currentlyRunning;
+    private bool currentlyCrossing;
 
     private bool currentlyWorking;
     private float workingDuration;
     private float workingTime;
+
+    public GameObject rageDialog;
 
     [SerializeField]
 	private int stunDuration;
@@ -66,16 +68,21 @@ public class Player : MonoBehaviour {
 		rigibody = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		playerStress = GetComponent<Stress>();
+        //rageDialog = transform.GetChild(1).GetComponent<GameObject>();
+
+        rageDialog.SetActive(false);
 
         InitializeAnimator();
 
         currentDoor = null;
         currentTask = null;
 
-		isPlayerStunned = false;
+        isPlayerStunned = false;
 
         stunDuration = 3;
         currentlyRunning = false;
+
+        currentlyCrossing = false;
 
         currentlyWorking = false;
         workingDuration = 0.5f;
@@ -109,7 +116,13 @@ public class Player : MonoBehaviour {
                 } else {
                     animator.SetBool("Running", false);
                     currentlyRunning = false;
+
+                    
                 }
+            }
+
+            if (Input.GetKeyDown(stressReliefKey)) {
+                relieveStress();
             }
         }
 
@@ -132,8 +145,10 @@ public class Player : MonoBehaviour {
 
 	private void crossStairs() {
 		if (currentDoor != null) {
+            currentlyCrossing = true;
 			transform.position = currentDoor.Cross();
-			animator.SetTrigger ("Doors");
+            currentDoor = currentDoor.ConnectedDoor();
+			//animator.SetTrigger ("Doors");
 		}
 	}
 		
@@ -177,9 +192,12 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnTriggerExit2D(Collider2D collisionObject){
-		if (collisionObject.gameObject.GetComponent<Door> () != null) {
-			currentDoor = null;
-		} else if (collisionObject.gameObject.GetComponent<Task>() != null){
+        if (collisionObject.gameObject.GetComponent<Door>() != null) {
+            if (!currentlyCrossing) {
+                currentDoor = null;
+            }
+            currentlyCrossing = false;
+        } else if (collisionObject.gameObject.GetComponent<Task>() != null){
 			currentTask = null;
 		}
 	}
@@ -199,7 +217,9 @@ public class Player : MonoBehaviour {
 	}
 
 	public void relieveStress(){
-		playerGameController.relieveStress (transform.GetInstanceID ());
+        rageDialog.SetActive(true);
+        playerGameController.relieveStress (transform.GetInstanceID ());
+        Invoke("DeactivateRage", 0.5f);
 	}
     
     private void RunningLookingRight(bool right) {
@@ -223,6 +243,10 @@ public class Player : MonoBehaviour {
 
     public float getCurrentStressLevel() {
         return playerStress.getCurrentStressLevel();
-    } 
+    }
+
+    private void DeactivateRage() {
+        rageDialog.SetActive(false);
+    }
 
 }

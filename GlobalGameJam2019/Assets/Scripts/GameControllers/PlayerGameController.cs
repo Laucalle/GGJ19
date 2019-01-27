@@ -6,8 +6,7 @@ public class PlayerGameController : MonoBehaviour {
 
 	[SerializeField]
 	private Player player1, player2;
-
-	[SerializeField]
+    
 	private float distanceThreshold;
 
 	[SerializeField]
@@ -15,13 +14,15 @@ public class PlayerGameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        distanceThreshold = 3.454371f;
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (arePlayersClose ()) {
+        UpdateHalos();
+
+        if (arePlayersClose ()) {
 			player1.autoDecreaseStress ();
 			player2.autoDecreaseStress ();
 		} else {
@@ -30,6 +31,27 @@ public class PlayerGameController : MonoBehaviour {
 		}
 
 	}
+
+    private void UpdateHalos() {
+        float alfa = getAlphaForHalo();
+
+        Color col = player1.transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+        col.a = alfa;
+        player1.transform.GetChild(0).GetComponent<SpriteRenderer>().color = col;
+        player2.transform.GetChild(0).GetComponent<SpriteRenderer>().color = col;
+    }
+
+    private float getXDist() {
+        return Mathf.Abs(player1.transform.position.x - player2.transform.position.x);
+    }
+
+    private float getAlphaForHalo() {
+        float distX = getXDist(), distY = Mathf.Abs(player1.transform.position.y - player2.transform.position.y);
+        if (distY < 3) {
+            return distX < 15 ? -distX / 10 + 1.5f : 0;
+        }
+        return 0;
+    }
 
 	private bool arePlayersClose(){
 		float distanceBetweenPlayers = Vector3.Distance (player1.transform.position,
