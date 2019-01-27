@@ -34,8 +34,9 @@ public class Player : MonoBehaviour {
     private Stress playerStress;
 
     [SerializeField]
-    private Canvas PlayerCanvas;
-    private Image StressImage;
+    private Canvas playerCanvas;
+    private Image stressImage;
+    private Text keyText;
 
     private Door currentDoor;
 	private Task currentTask;
@@ -78,14 +79,15 @@ public class Player : MonoBehaviour {
 
         currentlyWorking = false;
         workingDuration = 0.5f;
-        
-        changeSolveTaskKeyAtRandom ();
 
-        if (PlayerCanvas == null) {
+        if (playerCanvas == null) {
             Debug.Log("FALTA ASIGNAR EL PLAYER_CANVAS");
         } else {
-            StressImage = PlayerCanvas.transform.GetChild(0).GetComponent<Image>().transform.GetChild(0).GetComponent<Image>();
+            stressImage = playerCanvas.transform.GetChild(0).GetComponent<Image>().transform.GetChild(0).GetComponent<Image>();
+            keyText = playerCanvas.transform.GetChild(1).GetComponent<Image>().transform.GetChild(0).GetComponent<Text>();
         }
+        
+        changeSolveTaskKeyAtRandom();
     }
 	
 	// Update is called once per frame
@@ -111,7 +113,7 @@ public class Player : MonoBehaviour {
             }
         }
 
-        StressImage.fillAmount = playerStress.getCurrentStressNormalized();
+        stressImage.fillAmount = playerStress.getCurrentStressNormalized();
         Debug.Log(solveTaskKey);
     }
 
@@ -212,7 +214,8 @@ public class Player : MonoBehaviour {
 
 	private void changeSolveTaskKeyAtRandom(){
 		solveTaskKey = possibleSolveTaskKeycodes[Random.Range(0,possibleSolveTaskKeycodes.Count-1)];
-		Invoke ("changeSolveTaskKeyAtRandom", timeBetweenChangeSolveTaskKey);
+        keyText.text = solveTaskKey.ToString();
+        Invoke("changeSolveTaskKeyAtRandom", timeBetweenChangeSolveTaskKey);
 	}
 
 	public string solveTaskKeyCodeString(){
