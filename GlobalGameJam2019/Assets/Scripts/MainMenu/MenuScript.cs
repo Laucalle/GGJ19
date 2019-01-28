@@ -9,8 +9,8 @@ public class MenuScript : MonoBehaviour {
 	private GameObject mainMenuObject, creditsGameObject;
 	
 	public void LoadSceneAsync(string sceneName){
-
-		StartCoroutine(LoadYourAsyncScene(sceneName));
+        Time.timeScale = 1;
+        StartCoroutine(LoadYourAsyncScene(sceneName));
 	}
 
 	IEnumerator LoadYourAsyncScene(string sceneName){
@@ -18,7 +18,8 @@ public class MenuScript : MonoBehaviour {
 
 		while (!asyncLoad.isDone)
 			yield return null;
-	}
+        Time.timeScale = 1;
+    }
 
 	public void Quit(){
 		Application.Quit ();

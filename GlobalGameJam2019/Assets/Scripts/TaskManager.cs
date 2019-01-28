@@ -10,8 +10,11 @@ public class TaskManager : MonoBehaviour {
     public int numTasks;
     private int maxActiveTasks;
 
+    private float GAME_TIME;
+
     public Canvas taskManagerCanvas;
     private Text timerText, pointsText;
+    public GameObject endGamePanel;
 
     private float timeLeft;
 
@@ -21,8 +24,11 @@ public class TaskManager : MonoBehaviour {
 
 	private int quantityOfTasksCompleted;
 
+    private bool gameEnded;
+
     // Start is called before the first frame update
     void Start() {
+        GAME_TIME = 121;
         tasks = new List<Task>();
         int childrenCount = transform.childCount;
         for (int i = 0; i < childrenCount; i++) {
@@ -35,6 +41,8 @@ public class TaskManager : MonoBehaviour {
         maxActiveTasks = System.Math.Min(6, tasks.Count);
         numTasks = 0;
 
+        gameEnded = false;
+
         if (maxActiveTasks > 1) {
             Invoke("ActivateTask", 2);
         }
@@ -42,9 +50,11 @@ public class TaskManager : MonoBehaviour {
 		quantityOfTasksCompleted = 0;
 
         timerText = taskManagerCanvas.transform.GetChild(0).GetComponent<Text>();
-        pointsText = taskManagerCanvas.transform.GetChild(1).GetComponent<Text>();
-        pointsText.enabled = false;
-        timeLeft = 181;
+        //endGamePanel = taskManagerCanvas.transform.GetChild(1).GetComponent<GameObject>();
+        pointsText = endGamePanel.transform.GetChild(0).GetComponent<Text>();
+        endGamePanel.SetActive(false);
+        //pointsText.enabled = false;
+        timeLeft = GAME_TIME ;
     }
 
     private void ResetTimer() {
@@ -68,10 +78,12 @@ public class TaskManager : MonoBehaviour {
             ResetTimer();
         }
 
-        if (timeLeft <= 0) {
-            pointsText.text = "Score: " + quantityOfTasksCompleted.ToString();
-            pointsText.enabled = true;
+        if (timeLeft <= 0 && !gameEnded) {
             Time.timeScale = 0;
+            endGamePanel.SetActive(true);
+            gameEnded = true;
+            pointsText.text = "Score: " + quantityOfTasksCompleted.ToString();
+            Mute();
         }
     }
 
@@ -102,4 +114,10 @@ public class TaskManager : MonoBehaviour {
 	public int getQuantityOfTasksCompleted() {
 		return quantityOfTasksCompleted;	
 	}
+
+    private void Mute() {
+        foreach (Task t in tasks) {
+            t.Mute();
+        }
+    }
 }

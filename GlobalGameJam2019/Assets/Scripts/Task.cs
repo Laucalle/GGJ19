@@ -16,17 +16,18 @@ public class Task : MonoBehaviour {
     private Canvas completionCanvas;
     private Image timer;
     private Image completionImage;
+    private Animator animator, Xanimator;
+
+    private AudioSource audioSource;
 
     // Asignar externamente 
     public float completionStress;
     public float timeOutStress;
     public int pointsToCompletion;
     public float timeToCompletion;
-    private Animator animator;
     public AudioClip onBrokenClip, whileBrokenClip, onFixedClip;
-    private AudioSource audioSource;
 
-
+    private 
     // Start is called before the first frame update
     void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -42,6 +43,8 @@ public class Task : MonoBehaviour {
         completionCanvas = transform.GetChild(1).GetComponent<Canvas>();
         completionImage = completionCanvas.transform.GetChild(0).GetComponent<Image>().transform.GetChild(0).GetComponent<Image>();
         completionCanvas.enabled = false;
+
+        Xanimator = transform.GetChild(2).GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -65,7 +68,8 @@ public class Task : MonoBehaviour {
         player2.IncreaseStress(timeOutStress);
 		Deactivate(false);
         DeactivateCompletionCanvas();
-        animator.SetTrigger("IdleBroken");        
+        animator.SetTrigger("IdleBroken");
+        Xanimator.SetTrigger("Appear");
     }
 
     private void Deactivate(bool isTaskDone) {
@@ -134,4 +138,7 @@ public class Task : MonoBehaviour {
         completionCanvas.enabled = false;
     }
 
+    public void Mute() {
+        audioSource.mute = true;
+    }
 }
